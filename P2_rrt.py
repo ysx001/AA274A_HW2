@@ -237,6 +237,7 @@ class DubinsRRT(RRT):
     def plot_path(self, resolution = np.pi/24, **kwargs):
         from dubins import path_sample
         pts = []
-        for i in range(self.path.shape[0] - 1):
-            pts.extend(path_sample(self.path[i], self.path[i+1], self.turning_radius, self.turning_radius*resolution)[0])
+        path = np.array(self.path)
+        for i in range(path.shape[0] - 1):
+            pts.extend(path_sample(path[i], path[i+1], self.turning_radius, self.turning_radius*resolution)[0])
         plt.plot([x for x, y, th in pts], [y for x, y, th in pts], **kwargs)
