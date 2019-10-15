@@ -89,7 +89,7 @@ class RRTConnect(object):
         """
         raise NotImplementedError("steer_towards_backward must be overriden by a subclass of RRTConnect")
 
-    def solve(self, eps, max_iters = 1000, goal_bias = 0.05):
+    def solve(self, eps, max_iters = 1000):
         """
         Uses RRT-Connect to perform bidirectional RRT, with a forward tree
         rooted at self.x_init and a backward tree rooted at self.x_goal, with
@@ -100,9 +100,7 @@ class RRTConnect(object):
             eps: maximum steering distance
             max_iters: maximum number of RRT iterations (early termination
                 is possible when a feasible solution is found)
-            goal_bias: probability during each iteration of setting
-                x_rand = self.x_goal (instead of uniformly randly sampling
-                from the state space)
+                
         Output:
             None officially (just plots), but see the "Intermediate Outputs"
             descriptions below
