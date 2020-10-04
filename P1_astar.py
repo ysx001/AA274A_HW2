@@ -35,6 +35,7 @@ class AStar(object):
             x: state tuple
         Output:
             Boolean True/False
+        Hint: look at the usage for the DetOccupancyGrid2D.is_free() method
         """
         ########## Code starts here ##########
         
