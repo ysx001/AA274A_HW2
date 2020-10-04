@@ -7,8 +7,8 @@ class AStar(object):
     """Represents a motion planning problem to be solved using A*"""
 
     def __init__(self, statespace_lo, statespace_hi, x_init, x_goal, occupancy, resolution=1):
-        self.statespace_lo = statespace_lo         # state space lower bound (e.g., (-5, -5))
-        self.statespace_hi = statespace_hi         # state space upper bound (e.g., (5, 5))
+        self.statespace_lo = statespace_lo         # state space lower bound (e.g., [-5, -5])
+        self.statespace_hi = statespace_hi         # state space upper bound (e.g., [5, 5])
         self.occupancy = occupancy                 # occupancy grid
         self.resolution = resolution               # resolution of the discretization of state space (cell/m)
         self.x_init = self.snap_to_grid(x_init)    # initial state
