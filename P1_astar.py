@@ -9,7 +9,7 @@ class AStar(object):
     def __init__(self, statespace_lo, statespace_hi, x_init, x_goal, occupancy, resolution=1):
         self.statespace_lo = statespace_lo         # state space lower bound (e.g., [-5, -5])
         self.statespace_hi = statespace_hi         # state space upper bound (e.g., [5, 5])
-        self.occupancy = occupancy                 # occupancy grid
+        self.occupancy = occupancy                 # occupancy grid (a DetOccupancyGrid2D object)
         self.resolution = resolution               # resolution of the discretization of state space (cell/m)
         self.x_init = self.snap_to_grid(x_init)    # initial state
         self.x_goal = self.snap_to_grid(x_goal)    # goal state
@@ -35,7 +35,8 @@ class AStar(object):
             x: state tuple
         Output:
             Boolean True/False
-        Hint: look at the usage for the DetOccupancyGrid2D.is_free() method
+        Hint: self.occupancy is a DetOccupancyGrid2D object, take a look at its methods for what might be
+              useful here
         """
         ########## Code starts here ##########
         
