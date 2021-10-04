@@ -51,7 +51,7 @@ class AStar(object):
         Output:
             Float Euclidean distance
 
-        HINT: This should take one line.
+        HINT: This should take one line. Tuples can be converted to numpy arrays using np.array().
         """
         ########## Code starts here ##########
         
