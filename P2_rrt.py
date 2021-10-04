@@ -184,10 +184,11 @@ class DubinsRRT(RRT):
     """
     Represents a planning problem for the Dubins car, a model of a simple
     car that moves at a constant speed forward and has a limited turning
-    radius. We will use this v0.9.2 of the package at
-    https://github.com/AndrewWalker/pydubins/blob/0.9.2/dubins/dubins.pyx
+    radius. We will use the dubins package at
+    https://github.com/AndrewWalker/pydubins/blob/master/dubins/dubins.pyx
     to compute steering distances and steering trajectories. In particular,
-    note the functions dubins.path_length and dubins.path_sample (read
+    note the functions d_path = dubins.shortest_path and 
+    functions of the path such as d_path.sample_many and d_path.path_length (read
     their documentation at the link above). See
     http://planning.cs.uiuc.edu/node821.html
     for more details on how these steering trajectories are derived.
@@ -198,29 +199,33 @@ class DubinsRRT(RRT):
 
     def find_nearest(self, V, x):
         # Consult function specification in parent (RRT) class.
-        # HINT: The order of arguments matters for DubinsRRT.
-        from dubins import path_length
+        # HINT: You may find the functions dubins.shortest_path() and path_length() useful
+        # HINT: The order of arguments for dubins.shortest_path() is important for DubinsRRT.
+        import dubins
         ########## Code starts here ##########
         
         ########## Code ends here ##########
 
     def steer_towards(self, x1, x2, eps):
-        ########## Code starts here ##########
+        import dubins
         """
-        A subtle issue: if you use dubins.path_sample to return the point
+        A subtle issue: if you use d_path.sample_many to return the point
         at distance eps along the path from x to y, use a turning radius
         slightly larger than self.turning_radius
         (i.e., 1.001*self.turning_radius). Without this hack,
-        dubins.path_sample might return a point that can't quite get to in
+        d_path.sample_many might return a point that can't quite get to in
         distance eps (using self.turning_radius) due to numerical precision
         issues.
         """
+        # HINT: You may find the functions dubins.shortest_path(), d_path.path_length(), and d_path.sample_many() useful
+        ########## Code starts here ##########
         
         ########## Code ends here ##########
 
     def is_free_motion(self, obstacles, x1, x2, resolution = np.pi/6):
-        from dubins import path_sample
-        pts = path_sample(x1, x2, self.turning_radius, self.turning_radius*resolution)[0]
+        import dubins
+        d_path = dubins.shortest_path(x1, x2, self.turning_radius)
+        pts = d_path.sample_many(self.turning_radius*resolution)[0]
         pts.append(x2)
         for i in range(len(pts) - 1):
             for line in obstacles:
@@ -229,20 +234,23 @@ class DubinsRRT(RRT):
         return True
 
     def plot_tree(self, V, P, resolution = np.pi/24, **kwargs):
-        from dubins import path_sample
+        import dubins
         line_segments = []
         for i in range(V.shape[0]):
             if P[i] >= 0:
-                pts = path_sample(V[P[i],:], V[i,:], self.turning_radius, self.turning_radius*resolution)[0]
+                d_path = dubins.shortest_path(V[P[i],:], V[i,:], self.turning_radius)
+                pts = d_path.sample_many(self.turning_radius*resolution)[0]
                 pts.append(V[i,:])
                 for j in range(len(pts) - 1):
                     line_segments.append((pts[j], pts[j+1]))
         plot_line_segments(line_segments, **kwargs)
 
     def plot_path(self, resolution = np.pi/24, **kwargs):
-        from dubins import path_sample
+        import dubins
         pts = []
         path = np.array(self.path)
         for i in range(path.shape[0] - 1):
-            pts.extend(path_sample(path[i], path[i+1], self.turning_radius, self.turning_radius*resolution)[0])
+            d_path = dubins.shortest_path(path[i], path[i+1], self.turning_radius)
+            new_pts = d_path.sample_many(self.turning_radius*resolution)[0]
+            pts.extend(new_pts)
         plt.plot([x for x, y, th in pts], [y for x, y, th in pts], **kwargs)
