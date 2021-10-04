@@ -102,6 +102,7 @@ class RRT(object):
         #   - use the helper functions find_nearest, steer_towards, and is_free_motion
         #   - remember that V and P always contain max_iters elements, but only the first n
         #     are meaningful! keep this in mind when using the helper functions!
+        #   - the order in which you pass in arguments to steer_towards and is_free_motion is important
 
         ########## Code starts here ##########
         
@@ -120,7 +121,7 @@ class RRT(object):
             plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.03), fancybox=True, ncol=3)
             plt.scatter(V[:n,0], V[:n,1])
         else:
-            print "Solution not found!"
+            print("Solution not found!")
 
         return success
 
@@ -152,12 +153,14 @@ class GeometricRRT(RRT):
     """
 
     def find_nearest(self, V, x):
+        # Consult function specification in parent (RRT) class.
         ########## Code starts here ##########
         # Hint: This should take one line.
         
         ########## Code ends here ##########
 
     def steer_towards(self, x1, x2, eps):
+        # Consult function specification in parent (RRT) class.
         ########## Code starts here ##########
         # Hint: This should take one line.
         
@@ -194,6 +197,8 @@ class DubinsRRT(RRT):
         super(self.__class__, self).__init__(statespace_lo, statespace_hi, x_init, x_goal, obstacles)
 
     def find_nearest(self, V, x):
+        # Consult function specification in parent (RRT) class.
+        # HINT: The order of arguments matters for DubinsRRT.
         from dubins import path_length
         ########## Code starts here ##########
         
