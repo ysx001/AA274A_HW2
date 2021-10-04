@@ -29,7 +29,7 @@ class AStar(object):
 
     def is_free(self, x):
         """
-        Checks if a give state is free, meaning it is inside the bounds of the map and
+        Checks if a give state x is free, meaning it is inside the bounds of the map and
         is not inside any obstacle.
         Inputs:
             x: state tuple
@@ -68,7 +68,7 @@ class AStar(object):
 
     def get_neighbors(self, x):
         """
-        Gets the FREE neighbor states of a given state. Assumes a motion model
+        Gets the FREE neighbor states of a given state x. Assumes a motion model
         where we can move up, down, left, right, or along the diagonals by an
         amount equal to self.resolution.
         Input:
@@ -79,11 +79,11 @@ class AStar(object):
         HINTS: Use self.is_free to check whether a given state is indeed free.
                Use self.snap_to_grid (see above) to ensure that the neighbors
                you compute are actually on the discrete grid, i.e., if you were
-               to compute neighbors by simply adding/subtracting self.resolution
-               from x, numerical error could creep in over the course of many
-               additions and cause grid point equality checks to fail. To remedy
-               this, you should make sure that every neighbor is snapped to the
-               grid as it is computed.
+               to compute neighbors by adding/subtracting self.resolution from x, 
+               numerical errors could creep in over the course of many additions 
+               and cause grid point equality checks to fail. To remedy this, you 
+               should make sure that every neighbor is snapped to the grid as it 
+               is computed.
         """
         neighbors = []
         ########## Code starts here ##########
