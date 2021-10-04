@@ -27,7 +27,8 @@ class SwitchingController(object):
             V, om: Control actions
         """
         # Hint: Both self.traj_controller and self.pose_controller have compute_control() functions. 
-        #       When should each be called? Make use of self.t_before_switch.
+        #       When should each be called? Make use of self.t_before_switch and 
+        #       self.traj_controller.traj_times.
         ########## Code starts here ##########
 
         ########## Code ends here ##########
