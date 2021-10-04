@@ -35,3 +35,8 @@ def line_line_intersection(l1, l2):
     A, B = np.array(l1)
     C, D = np.array(l2)
     return ccw(A, C, D) != ccw(B, C, D) and ccw(A, B, C) != ccw(A, B, D)
+
+def wrapToPi(a):
+    if isinstance(a, list):    # backwards compatibility for lists (distinct from np.array)
+        return [(x + np.pi) % (2*np.pi) - np.pi for x in a]
+    return (a + np.pi) % (2*np.pi) - np.pi
