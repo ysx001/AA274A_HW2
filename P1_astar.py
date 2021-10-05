@@ -112,7 +112,7 @@ class AStar(object):
             current = path[-1]
         return list(reversed(path))
 
-    def plot_path(self, fig_num=0):
+    def plot_path(self, fig_num=0, show_init_label=True):
         """Plots the path found in self.path and the obstacles"""
         if not self.path:
             return
@@ -122,7 +122,8 @@ class AStar(object):
         solution_path = np.array(self.path) * self.resolution
         plt.plot(solution_path[:,0],solution_path[:,1], color="green", linewidth=2, label="A* solution path", zorder=10)
         plt.scatter([self.x_init[0]*self.resolution, self.x_goal[0]*self.resolution], [self.x_init[1]*self.resolution, self.x_goal[1]*self.resolution], color="green", s=30, zorder=10)
-        plt.annotate(r"$x_{init}$", np.array(self.x_init)*self.resolution + np.array([.2, .2]), fontsize=16)
+        if show_init_label:
+            plt.annotate(r"$x_{init}$", np.array(self.x_init)*self.resolution + np.array([.2, .2]), fontsize=16)
         plt.annotate(r"$x_{goal}$", np.array(self.x_goal)*self.resolution + np.array([.2, .2]), fontsize=16)
         plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.03), fancybox=True, ncol=3)
 
