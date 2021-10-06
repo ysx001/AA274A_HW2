@@ -79,14 +79,14 @@ class RRT(object):
 
         # V stores the states that have been added to the RRT (pre-allocated at its maximum size
         # since numpy doesn't play that well with appending/extending)
-        V = np.zeros((max_iters, state_dim))
+        V = np.zeros((max_iters + 1, state_dim))
         V[0,:] = self.x_init    # RRT is rooted at self.x_init
         n = 1                   # the current size of the RRT (states accessible as V[range(n),:])
 
         # P stores the parent of each state in the RRT. P[0] = -1 since the root has no parent,
         # P[1] = 0 since the parent of the first additional state added to the RRT must have been
         # extended from the root, in general 0 <= P[i] < i for all i < n
-        P = -np.ones(max_iters, dtype=int)
+        P = -np.ones(max_iters + 1, dtype=int)
 
         success = False
 
