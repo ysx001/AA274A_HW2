@@ -1,6 +1,8 @@
+import itertools
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+from numpy.core.fromnumeric import product
 from utils import plot_line_segments
 
 class AStar(object):
@@ -39,6 +41,12 @@ class AStar(object):
               useful here
         """
         ########## Code starts here ##########
+        i, j = x
+        if i <= self.statespace_lo[0] or i >= self.statespace_hi[0]:
+            return False
+        if j <= self.statespace_lo[1] or j >= self.statespace_hi[1]:
+            return False
+        return self.occupancy.is_free(x)
         
         ########## Code ends here ##########
 
@@ -54,7 +62,7 @@ class AStar(object):
         HINT: This should take one line. Tuples can be converted to numpy arrays using np.array().
         """
         ########## Code starts here ##########
-        
+        return np.linalg.norm(np.array(x1) - np.array(x2))
         ########## Code ends here ##########
 
     def snap_to_grid(self, x):
@@ -87,7 +95,12 @@ class AStar(object):
         """
         neighbors = []
         ########## Code starts here ##########
-        
+        operations = [-self.resolution, 0, self.resolution]
+        for dx, dy in itertools.product(operations, operations):
+            if not (dx == 0 and dy ==0):
+                neighbor = self.snap_to_grid((x[0] + dx, x[1] + dy))
+                if self.is_free(neighbor):
+                    neighbors.append(neighbor)
         ########## Code ends here ##########
         return neighbors
 
@@ -152,7 +165,25 @@ class AStar(object):
                 set membership efficiently using the syntax "if item in set".
         """
         ########## Code starts here ##########
-        
+        while len(self.open_set) > 0:
+            x_cur  = self.find_best_est_cost_through()
+            if x_cur == self.x_goal:
+                self.path = self.reconstruct_path()
+                return True
+            self.open_set.remove(x_cur)
+            self.closed_set.add(x_cur)
+            for x_neigh in self.get_neighbors(x_cur):
+                if x_neigh in self.closed_set:
+                    continue
+                cost = self.cost_to_arrive[x_cur] + self.distance(x_cur, x_neigh)
+                if x_neigh not in self.open_set:
+                    self.open_set.add(x_neigh)
+                elif cost > self.cost_to_arrive[x_neigh]:
+                    continue
+                self.came_from[x_neigh] = x_cur
+                self.cost_to_arrive[x_neigh] = cost
+                self.est_cost_through[x_neigh] = cost + self.distance(x_neigh, self.x_goal)
+        return False
         ########## Code ends here ##########
 
 class DetOccupancyGrid2D(object):
