@@ -42,9 +42,9 @@ class AStar(object):
         """
         ########## Code starts here ##########
         i, j = x
-        if i <= self.statespace_lo[0] or i >= self.statespace_hi[0]:
+        if i < self.statespace_lo[0] or i > self.statespace_hi[0]:
             return False
-        if j <= self.statespace_lo[1] or j >= self.statespace_hi[1]:
+        if j < self.statespace_lo[1] or j > self.statespace_hi[1]:
             return False
         return self.occupancy.is_free(x)
         
@@ -97,7 +97,7 @@ class AStar(object):
         ########## Code starts here ##########
         operations = [-self.resolution, 0, self.resolution]
         for dx, dy in itertools.product(operations, operations):
-            if not (dx == 0 and dy ==0):
+            if not (dx == 0 and dy == 0):
                 neighbor = self.snap_to_grid((x[0] + dx, x[1] + dy))
                 if self.is_free(neighbor):
                     neighbors.append(neighbor)
